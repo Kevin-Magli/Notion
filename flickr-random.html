@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flickr Random Image</title>
+</head>
+<body>
+
+<div id="randomImageContainer">
+    <!-- The image will be displayed here -->
+</div>
+
+<script>
+// Replace 'YOUR_FLICKR_ALBUM_ID' with your actual Flickr album ID
+const flickrAlbumId = '72177720312749064';
+const flickrApiUrl = `https://api.flickr.com/services/rest/?method=flickr.photosets.getPhotos&api_key=6219361c33e0c1df42aa1e45c4b40ce5&photoset_id=${flickrAlbumId}&format=json&nojsoncallback=1`;
+
+// Fetch images from Flickr API
+fetch(flickrApiUrl)
+    .then(response => response.json())
+    .then(data => {
+        const photos = data.photoset.photo;
+        const randomPhoto = photos[Math.floor(Math.random() * photos.length)];
+        
+        // Display the random image
+        const imageUrl = `https://farm${randomPhoto.farm}.staticflickr.com/${randomPhoto.server}/${randomPhoto.id}_${randomPhoto.secret}_z.jpg`;
+        const imageContainer = document.getElementById('randomImageContainer');
+        imageContainer.innerHTML = `<img src="${imageUrl}" alt="Random Image">`;
+    })
+    .catch(error => console.error('Error fetching Flickr data:', error));
+</script>
+
+</body>
+</html>
